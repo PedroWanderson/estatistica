@@ -21,7 +21,7 @@ def gerar_dados_brutos(num_registros):
             dados_brutos.append({
                 "Cidade": nome_cidade,
                 "Populacao": populacao,
-                "Taxa homocidios": taxa_homocidios
+                "Taxa homicidios": taxa_homocidios
             })
     return pd.DataFrame(dados_brutos)
 
