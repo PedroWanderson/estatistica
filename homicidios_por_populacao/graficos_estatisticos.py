@@ -39,4 +39,29 @@ def histograma():
     histograma.set_ylabel('Frequência (Número de cidades)')
     plt.show()
 
-histograma()
+def boxplot():
+    boxplot = (df_dados_brutos['Taxa homicidios']).plot.box()
+    boxplot.set_ylabel('Taxa de homicídios')
+    plt.show()
+
+def densidade():
+    histograma = (df_dados_brutos['Taxa homicidios']).plot.hist(density= True, bins=range(1, 16), figsize=(6, 4))
+    df_dados_brutos['Taxa homicidios'].plot.density(ax = histograma)
+    histograma.set_xlabel('Taxa de homicídios')
+    histograma.set_ylabel('Frequência (densidade)')
+    plt.xlim(1, 15)
+    plt.show()
+
+def dispersao():
+    plt.figure(figsize=(10, 6))
+    plt.scatter(df_dados_brutos['Taxa homicidios'], df_dados_brutos['Populacao'], alpha=0.7)
+    plt.xlabel('População')
+    plt.ylabel('Taxa de homicídios')
+    plt.title('Gráfico de dispersão: taxa de homicídio vs população')
+    plt.grid(True)
+    plt.show()
+
+#histograma()
+#boxplot()
+#densidade()
+dispersao()
