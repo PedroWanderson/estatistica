@@ -39,6 +39,7 @@ print("-" * 30)
 print(f"Menor variação diária: {menor_valor:.4f}")
 print(f"Ocorreu no dia: {data_menor.strftime('%d/%m/%Y')}")
 
+print("-" * 30)
 # medidas de tendência Central
 media = df[ativo].mean()
 mediana = df[ativo].median()
@@ -47,6 +48,51 @@ print(f"Medidas de tendência central para {ativo}:")
 print(f"Média: {media:.4f}")
 print(f"Mediana: {mediana:.4f}")
 if (len(moda) > 0):
-    print(f"Modas: {moda}")
+    print(f"Modas: {moda.to_string(index=False)}")
 else:
     print(f"O ativo {ativo} é amodal")
+
+df_frequencia = df[ativo].value_counts()
+print(df_frequencia.head())
+print("-" * 30)
+
+# Estimativa de variabilidade
+desvio = df[ativo] - media
+print(desvio.head())
+desvio_absoluto = np.abs(df[ativo] - media)
+print(desvio_absoluto.head())
+desvio_absoluto_medio = np.mean(desvio_absoluto)
+variancia = np.var(df[ativo], ddof=1)
+desvio_padrao = np.std(df[ativo], ddof=1)
+print(f"Estimativas de variabilidade para {ativo}:")
+print(f"Desvio Absoluto Médio: {desvio_absoluto_medio:.4f}")
+print("Variância: {variancia:.4f}")
+print(f"Desvio Padrão: {desvio_padrao:.4f}")
+print("-" * 30)
+
+# Gráficos
+serie_as_dataframe = pd.DataFrame(df[ativo])
+fig, (histograma, caixa, densidade) = plt.subplots(3, 1, figsize=(8, 18))
+
+# Histograma
+#plt.figure() # Criando a primeira figura (janela)
+sns.histplot(data=serie_as_dataframe, ax = histograma)
+histograma.set_xlabel("variação percentual diária")
+histograma.set_ylabel("Ocorrências")
+plt.title("Histograma")
+
+# Boxplot
+#plt.figure()
+sns.boxplot(data=serie_as_dataframe, ax= caixa)
+caixa.set_ylabel("variação percentual diária")
+caixa.set_title("Boxplot")
+
+# Densidade
+#plt.figure()
+sns.kdeplot(data=serie_as_dataframe, ax = densidade) # subbiblioteca do seaborn para fazer o gráfico de densidade
+densidade.set_xlabel("variação percentual diária")
+densidade.set_ylabel("Ocorrências")
+densidade.set_title("Densidade")
+plt.tight_layout()
+
+plt.show()
